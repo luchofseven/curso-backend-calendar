@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -26,6 +27,11 @@ app.use(express.json());
 // Rutas
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventsRoutes);
+
+// Para rutas no definidas, servir el contenido estático que tenemos.
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
 
 // Escuchar peticiones
 app.listen(process.env.PORT ?? 3000, () => {
